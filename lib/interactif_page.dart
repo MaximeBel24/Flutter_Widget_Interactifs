@@ -51,6 +51,20 @@ class InteractifPageState extends State<InteractifPage> {
                   textButtonText()
                 ],
               ),
+          ),
+          ElevatedButton(
+              onPressed: () {
+                print("Salut");
+              },
+              child: const Text("Elevated"),
+            onLongPress: () {
+                updateColorsOnLongPress();
+            },
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.redAccent,
+              elevation: 5,
+              shadowColor: Colors.cyanAccent
+            ),
           )
         ],
       ),),
@@ -66,6 +80,12 @@ class InteractifPageState extends State<InteractifPage> {
     setState(() {
       backgroundColor = (backgroundColor == Colors.white) ? Colors.black: Colors.white;
       textColor = (textColor == Colors.black) ? Colors.white: Colors.black;
+    });
+  }
+
+  updateColorsOnLongPress() {
+    setState(() {
+      backgroundColor = (backgroundColor == Colors.white ||backgroundColor == Colors.black) ? Colors.deepOrange: Colors.white;
     });
   }
 
