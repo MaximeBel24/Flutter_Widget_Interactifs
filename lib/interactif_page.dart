@@ -12,6 +12,8 @@ class InteractifPageState extends State<InteractifPage> {
   Color backgroundColor = Colors.white;
   Color textColor = Colors.black;
   bool textButtonPressed = true;
+  Color elevatedColorBackgroundBottom = Colors.redAccent;
+  IconData icon = Icons.favorite;
 
   @override
   void initState() {
@@ -45,6 +47,9 @@ class InteractifPageState extends State<InteractifPage> {
         children: [
           TextButton(
               onPressed: updateAppBar,
+            style: TextButton.styleFrom(
+              backgroundColor: Colors.deepOrange
+            ),
               child: Row(
                 children: [
                   const Icon(Icons.work),
@@ -53,18 +58,31 @@ class InteractifPageState extends State<InteractifPage> {
               ),
           ),
           ElevatedButton(
-              onPressed: () {
-                print("Salut");
-              },
-              child: const Text("Elevated"),
-            onLongPress: () {
-                updateColorsOnLongPress();
-            },
+              onPressed: updateColorsOnSimplePress,
+            onLongPress: updateColorsOnLongPress,
             style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.redAccent,
+              backgroundColor: elevatedColorBackgroundBottom,
               elevation: 5,
               shadowColor: Colors.cyanAccent
             ),
+            child: const Text(
+              "Elevated Button",
+              style: TextStyle(
+                  color: Colors.black
+              ),
+            ),
+          ),
+          IconButton(
+            onPressed: updateElevatedButtonColor,
+            icon: Icon(icon),
+            color: Colors.pink,
+            splashColor: Colors.pinkAccent,
+          ),
+          IconButton(
+            onPressed: setIcon,
+            icon: const Icon(Icons.edit_outlined),
+            color: Colors.blue,
+            splashColor: Colors.blueAccent,
           )
         ],
       ),),
@@ -89,6 +107,18 @@ class InteractifPageState extends State<InteractifPage> {
     });
   }
 
+  updateColorsOnSimplePress() {
+    setState(() {
+      backgroundColor = (backgroundColor == Colors.white ||backgroundColor == Colors.black) ? Colors.deepOrange: Colors.black;
+    });
+  }
+
+  updateElevatedButtonColor() {
+    setState(() {
+      elevatedColorBackgroundBottom = (elevatedColorBackgroundBottom == Colors.redAccent) ? Colors.green: Colors.redAccent;
+    });
+  }
+
   updateAppBar() {
     setState(() => textButtonPressed = !textButtonPressed);
   }
@@ -102,9 +132,14 @@ class InteractifPageState extends State<InteractifPage> {
       "Je suis un texte button",
       style: TextStyle(
         color: Colors.white,
-        backgroundColor: Colors.deepOrange,
       ),
     );
+  }
+
+  setIcon() {
+    setState(() {
+      icon = (icon == Icons.favorite) ? Icons.heart_broken_rounded: Icons.favorite;
+    });
   }
 
 }
