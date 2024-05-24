@@ -14,6 +14,7 @@ class InteractifPageState extends State<InteractifPage> {
   bool textButtonPressed = true;
   Color elevatedColorBackgroundBottom = Colors.redAccent;
   IconData icon = Icons.favorite;
+  String prenom = "";
 
   @override
   void initState() {
@@ -83,7 +84,21 @@ class InteractifPageState extends State<InteractifPage> {
             icon: const Icon(Icons.edit_outlined),
             color: Colors.blue,
             splashColor: Colors.blueAccent,
-          )
+          ),
+          TextField(
+            obscureText: false,
+            decoration: InputDecoration(
+                hintText: "Entrez votre prénom",
+              border: OutlineInputBorder(borderRadius: BorderRadius.circular(25))
+            ),
+            keyboardType: TextInputType.emailAddress,
+            onChanged: (newString) {
+              setState(() {
+                prenom = newString;
+              });
+            },
+          ),
+          Text(prenom)
         ],
       ),),
       floatingActionButton: FloatingActionButton(
