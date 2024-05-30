@@ -1,14 +1,11 @@
 import 'package:flutter/material.dart';
 
 class InteractifPage extends StatefulWidget {
-
   @override
   InteractifPageState createState() => InteractifPageState();
-
 }
 
 class InteractifPageState extends State<InteractifPage> {
-
   Color backgroundColor = Colors.white;
   Color textColor = Colors.black;
   bool textButtonPressed = true;
@@ -16,6 +13,7 @@ class InteractifPageState extends State<InteractifPage> {
   IconData icon = Icons.favorite;
   String prenom = "";
   late TextEditingController controller;
+  bool switchValue = true;
 
   @override
   void initState() {
@@ -35,83 +33,89 @@ class InteractifPageState extends State<InteractifPage> {
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       backgroundColor: backgroundColor,
       appBar: AppBar(
         title: Text(
-            updateAppBarText(),
-          style: const TextStyle(
-            color: Colors.white
-        ),
+          updateAppBarText(),
+          style: const TextStyle(color: Colors.white),
         ),
         backgroundColor: Colors.deepOrange,
       ),
-      body: Center(child: Column(
-        children: [
-          TextButton(
+      body: Center(
+        child: Column(
+          children: [
+            TextButton(
               onPressed: updateAppBar,
-            style: TextButton.styleFrom(
-              backgroundColor: Colors.deepOrange
-            ),
+              style: TextButton.styleFrom(backgroundColor: Colors.deepOrange),
               child: Row(
-                children: [
-                  const Icon(Icons.work),
-                  textButtonText()
-                ],
+                children: [const Icon(Icons.work), textButtonText()],
               ),
-          ),
-          ElevatedButton(
+            ),
+            ElevatedButton(
               onPressed: updateColorsOnSimplePress,
-            onLongPress: updateColorsOnLongPress,
-            style: ElevatedButton.styleFrom(
-              backgroundColor: elevatedColorBackgroundBottom,
-              elevation: 5,
-              shadowColor: Colors.cyanAccent
-            ),
-            child: const Text(
-              "Elevated Button",
-              style: TextStyle(
-                  color: Colors.black
+              onLongPress: updateColorsOnLongPress,
+              style: ElevatedButton.styleFrom(
+                  backgroundColor: elevatedColorBackgroundBottom,
+                  elevation: 5,
+                  shadowColor: Colors.cyanAccent),
+              child: const Text(
+                "Elevated Button",
+                style: TextStyle(color: Colors.black),
               ),
             ),
-          ),
-          IconButton(
-            onPressed: updateElevatedButtonColor,
-            icon: Icon(icon),
-            color: Colors.pink,
-            splashColor: Colors.pinkAccent,
-          ),
-          IconButton(
-            onPressed: setIcon,
-            icon: const Icon(Icons.edit_outlined),
-            color: Colors.blue,
-            splashColor: Colors.blueAccent,
-          ),
-          TextField(
-            obscureText: false,
-            decoration: InputDecoration(
-                hintText: "Entrez votre prénom",
-              border: OutlineInputBorder(borderRadius: BorderRadius.circular(25))
+            IconButton(
+              onPressed: updateElevatedButtonColor,
+              icon: Icon(icon),
+              color: Colors.pink,
+              splashColor: Colors.pinkAccent,
             ),
-            keyboardType: TextInputType.emailAddress,
-            onChanged: (newString) {
-              setState(() {
-                prenom = newString;
-              });
-            },
-          ),
-          Text(prenom),
-          TextField(
-            controller: controller,
-            decoration: const InputDecoration(
-              hintText: "Entrez votre nom"
-              ),
-            onChanged: ((newValue) => setState(() => print("Done: $newValue"))),
-          ),
-          Text(controller.text)
-        ],
-      ),),
+            IconButton(
+              onPressed: setIcon,
+              icon: const Icon(Icons.edit_outlined),
+              color: Colors.blue,
+              splashColor: Colors.blueAccent,
+            ),
+            TextField(
+              obscureText: false,
+              decoration: InputDecoration(
+                  hintText: "Entrez votre prénom",
+                  border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(25))),
+              keyboardType: TextInputType.emailAddress,
+              onChanged: (newString) {
+                setState(() {
+                  prenom = newString;
+                });
+              },
+            ),
+            Text(prenom),
+            TextField(
+              controller: controller,
+              decoration: const InputDecoration(hintText: "Entrez votre nom"),
+              onChanged: ((newValue) =>
+                  setState(() => print("Done: $newValue"))),
+            ),
+            Text(controller.text),
+            Row(
+              mainAxisSize: MainAxisSize.max,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text((switchValue) ? "J'aime Elden Ring" : "Vivement le 21 juin"),
+                Switch(
+                    value: switchValue,
+                    activeColor: Colors.deepOrange,
+                    inactiveTrackColor: Colors.white,
+                    onChanged: ((bool) {
+                      setState(() {
+                        switchValue = bool;
+                      });
+                    }))
+              ],
+            ),
+          ],
+        ),
+      ),
       floatingActionButton: FloatingActionButton(
         onPressed: updateColors,
         child: const Icon(Icons.build),
@@ -122,26 +126,36 @@ class InteractifPageState extends State<InteractifPage> {
 
   updateColors() {
     setState(() {
-      backgroundColor = (backgroundColor == Colors.white) ? Colors.black: Colors.white;
-      textColor = (textColor == Colors.black) ? Colors.white: Colors.black;
+      backgroundColor =
+          (backgroundColor == Colors.white) ? Colors.black : Colors.white;
+      textColor = (textColor == Colors.black) ? Colors.white : Colors.black;
     });
   }
 
   updateColorsOnLongPress() {
     setState(() {
-      backgroundColor = (backgroundColor == Colors.white ||backgroundColor == Colors.black) ? Colors.deepOrange: Colors.white;
+      backgroundColor =
+          (backgroundColor == Colors.white || backgroundColor == Colors.black)
+              ? Colors.deepOrange
+              : Colors.white;
     });
   }
 
   updateColorsOnSimplePress() {
     setState(() {
-      backgroundColor = (backgroundColor == Colors.white ||backgroundColor == Colors.black) ? Colors.deepOrange: Colors.black;
+      backgroundColor =
+          (backgroundColor == Colors.white || backgroundColor == Colors.black)
+              ? Colors.deepOrange
+              : Colors.black;
     });
   }
 
   updateElevatedButtonColor() {
     setState(() {
-      elevatedColorBackgroundBottom = (elevatedColorBackgroundBottom == Colors.redAccent) ? Colors.green: Colors.redAccent;
+      elevatedColorBackgroundBottom =
+          (elevatedColorBackgroundBottom == Colors.redAccent)
+              ? Colors.green
+              : Colors.redAccent;
     });
   }
 
@@ -150,7 +164,7 @@ class InteractifPageState extends State<InteractifPage> {
   }
 
   String updateAppBarText() {
-    return(textButtonPressed)? "Je m'y connais un peu" : "Les interactifs";
+    return (textButtonPressed) ? "Je m'y connais un peu" : "Les interactifs";
   }
 
   Text textButtonText() {
@@ -164,8 +178,9 @@ class InteractifPageState extends State<InteractifPage> {
 
   setIcon() {
     setState(() {
-      icon = (icon == Icons.favorite) ? Icons.heart_broken_rounded: Icons.favorite;
+      icon = (icon == Icons.favorite)
+          ? Icons.heart_broken_rounded
+          : Icons.favorite;
     });
   }
-
 }
