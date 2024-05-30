@@ -15,16 +15,19 @@ class InteractifPageState extends State<InteractifPage> {
   Color elevatedColorBackgroundBottom = Colors.redAccent;
   IconData icon = Icons.favorite;
   String prenom = "";
+  late TextEditingController controller;
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     //Tout ce que l'on va faire pendant l'initialisation du widget
+    controller = TextEditingController();
   }
 
   @override
   void dispose() {
+    controller.dispose();
     // TODO: implement dispose
     super.dispose();
     //Tout ce que l'on va faire pendant que le widget sera dispose. Quand le widget sera supprimé
@@ -98,7 +101,15 @@ class InteractifPageState extends State<InteractifPage> {
               });
             },
           ),
-          Text(prenom)
+          Text(prenom),
+          TextField(
+            controller: controller,
+            decoration: const InputDecoration(
+              hintText: "Entrez votre nom"
+              ),
+            onChanged: ((newValue) => setState(() => print("Done: $newValue"))),
+          ),
+          Text(controller.text)
         ],
       ),),
       floatingActionButton: FloatingActionButton(
