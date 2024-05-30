@@ -14,6 +14,7 @@ class InteractifPageState extends State<InteractifPage> {
   String prenom = "";
   late TextEditingController controller;
   bool switchValue = true;
+  double sliderValue = 50;
 
   @override
   void initState() {
@@ -47,7 +48,7 @@ class InteractifPageState extends State<InteractifPage> {
           children: [
             TextButton(
               onPressed: updateAppBar,
-              style: TextButton.styleFrom(backgroundColor: Colors.deepOrange),
+              style: TextButton.styleFrom(backgroundColor: Colors.cyan),
               child: Row(
                 children: [const Icon(Icons.work), textButtonText()],
               ),
@@ -101,10 +102,12 @@ class InteractifPageState extends State<InteractifPage> {
               mainAxisSize: MainAxisSize.max,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text((switchValue) ? "J'aime Elden Ring" : "Vivement le 21 juin"),
+                Text((switchValue)
+                    ? "J'aime Elden Ring"
+                    : "Vivement le 21 juin"),
                 Switch(
                     value: switchValue,
-                    activeColor: Colors.deepOrange,
+                    activeColor: Colors.cyan,
                     inactiveTrackColor: Colors.white,
                     onChanged: ((bool) {
                       setState(() {
@@ -113,6 +116,21 @@ class InteractifPageState extends State<InteractifPage> {
                     }))
               ],
             ),
+            Slider(
+                activeColor: Colors.cyan,
+                inactiveColor: Colors.cyanAccent,
+                value: sliderValue,
+                min: 0,
+                max: 100,
+                onChanged: ((newValue) {
+                  setState(() {
+                    sliderValue = newValue;
+                  });
+                }),
+                thumbColor: Colors.blue,
+                
+                ),
+                Text("Valeur: ${sliderValue.toInt()}")
           ],
         ),
       ),
