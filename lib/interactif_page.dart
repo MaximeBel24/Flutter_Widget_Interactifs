@@ -22,6 +22,8 @@ class InteractifPageState extends State<InteractifPage> {
     "Abricot": false
   };
   int groupValue = 1;
+  DateTime firstDate = DateTime.now();
+  DateTime lastDate = DateTime(2040);
 
   @override
   void initState() {
@@ -61,18 +63,7 @@ class InteractifPageState extends State<InteractifPage> {
                   children: [const Icon(Icons.work), textButtonText()],
                 ),
               ),
-              ElevatedButton(
-                onPressed: updateColorsOnSimplePress,
-                onLongPress: updateColorsOnLongPress,
-                style: ElevatedButton.styleFrom(
-                    backgroundColor: elevatedColorBackgroundBottom,
-                    elevation: 5,
-                    shadowColor: Colors.cyanAccent),
-                child: const Text(
-                  "Elevated Button",
-                  style: TextStyle(color: Colors.black),
-                ),
-              ),
+              firstElvButton(),
               IconButton(
                 onPressed: updateElevatedButtonColor,
                 icon: Icon(icon),
@@ -142,6 +133,7 @@ class InteractifPageState extends State<InteractifPage> {
               Checkbox(value: check, onChanged: ((newBool) => setState(() => check = newBool ?? false))),
               checks(),
               radios(),
+              secondElvButton(),
               checks()
 
 
@@ -256,7 +248,54 @@ class InteractifPageState extends State<InteractifPage> {
     }
     return Row(children: radios,);
   }
+
+  ElevatedButton firstElvButton(){
+    return ElevatedButton(
+      onPressed: updateColorsOnSimplePress,
+      onLongPress: updateColorsOnLongPress,
+      style: ElevatedButton.styleFrom(
+          backgroundColor: elevatedColorBackgroundBottom,
+          elevation: 5,
+          shadowColor: Colors.cyanAccent),
+      child: const Text(
+        "Elevated Button",
+        style: TextStyle(color: Colors.black),
+      ),
+    );
+  }
+
+  ElevatedButton secondElvButton(){
+    return ElevatedButton(
+      onPressed: () {
+        showDate(context);
+      },
+      onLongPress: updateColorsOnLongPress,
+      style: ElevatedButton.styleFrom(
+          backgroundColor: elevatedColorBackgroundBottom,
+          elevation: 5,
+          shadowColor: Colors.cyanAccent),
+      child: const Text(
+        "Show Date Picker",
+        style: TextStyle(color: Colors.black),
+      ),
+    );
+  }
+
+  void showDate(BuildContext context){
+    showDatePicker(
+        context: context,
+        firstDate: firstDate,
+        lastDate: lastDate
+    ).then((value) => {
+      if (value != null) {
+        setState(() {
+          firstDate = value;
+        })
+      }
+    });
+  }
 }
+
 
 
 
