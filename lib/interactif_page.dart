@@ -21,6 +21,7 @@ class InteractifPageState extends State<InteractifPage> {
     "Oignon": true,
     "Abricot": false
   };
+  int groupValue = 1;
 
   @override
   void initState() {
@@ -49,80 +50,81 @@ class InteractifPageState extends State<InteractifPage> {
         ),
         backgroundColor: Colors.deepOrange,
       ),
-      body: Center(
-        child: Column(
-          children: [
-            TextButton(
-              onPressed: updateAppBar,
-              style: TextButton.styleFrom(backgroundColor: Colors.cyan),
-              child: Row(
-                children: [const Icon(Icons.work), textButtonText()],
+      body: SingleChildScrollView(
+        child: Center(
+          child: Column(
+            children: [
+              TextButton(
+                onPressed: updateAppBar,
+                style: TextButton.styleFrom(backgroundColor: Colors.cyan),
+                child: Row(
+                  children: [const Icon(Icons.work), textButtonText()],
+                ),
               ),
-            ),
-            ElevatedButton(
-              onPressed: updateColorsOnSimplePress,
-              onLongPress: updateColorsOnLongPress,
-              style: ElevatedButton.styleFrom(
-                  backgroundColor: elevatedColorBackgroundBottom,
-                  elevation: 5,
-                  shadowColor: Colors.cyanAccent),
-              child: const Text(
-                "Elevated Button",
-                style: TextStyle(color: Colors.black),
+              ElevatedButton(
+                onPressed: updateColorsOnSimplePress,
+                onLongPress: updateColorsOnLongPress,
+                style: ElevatedButton.styleFrom(
+                    backgroundColor: elevatedColorBackgroundBottom,
+                    elevation: 5,
+                    shadowColor: Colors.cyanAccent),
+                child: const Text(
+                  "Elevated Button",
+                  style: TextStyle(color: Colors.black),
+                ),
               ),
-            ),
-            IconButton(
-              onPressed: updateElevatedButtonColor,
-              icon: Icon(icon),
-              color: Colors.pink,
-              splashColor: Colors.pinkAccent,
-            ),
-            IconButton(
-              onPressed: setIcon,
-              icon: const Icon(Icons.edit_outlined),
-              color: Colors.blue,
-              splashColor: Colors.blueAccent,
-            ),
-            TextField(
-              obscureText: false,
-              decoration: InputDecoration(
-                  hintText: "Entrez votre prénom",
-                  border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(25))),
-              keyboardType: TextInputType.emailAddress,
-              onChanged: (newString) {
-                setState(() {
-                  prenom = newString;
-                });
-              },
-            ),
-            Text(prenom),
-            TextField(
-              controller: controller,
-              decoration: const InputDecoration(hintText: "Entrez votre nom"),
-              onChanged: ((newValue) =>
-                  setState(() => print("Done: $newValue"))),
-            ),
-            Text(controller.text),
-            Row(
-              mainAxisSize: MainAxisSize.max,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text((switchValue)
-                    ? "J'aime Elden Ring"
-                    : "Vivement le 21 juin"),
-                Switch(
-                    value: switchValue,
-                    activeColor: Colors.cyan,
-                    inactiveTrackColor: Colors.white,
-                    onChanged: ((bool) {
-                      setState(() {
-                        switchValue = bool;
-                      });
-                    }))
-              ],
-            ),
-            Slider(
+              IconButton(
+                onPressed: updateElevatedButtonColor,
+                icon: Icon(icon),
+                color: Colors.pink,
+                splashColor: Colors.pinkAccent,
+              ),
+              IconButton(
+                onPressed: setIcon,
+                icon: const Icon(Icons.edit_outlined),
+                color: Colors.blue,
+                splashColor: Colors.blueAccent,
+              ),
+              TextField(
+                obscureText: false,
+                decoration: InputDecoration(
+                    hintText: "Entrez votre prénom",
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(25))),
+                keyboardType: TextInputType.emailAddress,
+                onChanged: (newString) {
+                  setState(() {
+                    prenom = newString;
+                  });
+                },
+              ),
+              Text(prenom),
+              TextField(
+                controller: controller,
+                decoration: const InputDecoration(hintText: "Entrez votre nom"),
+                onChanged: ((newValue) =>
+                    setState(() => print("Done: $newValue"))),
+              ),
+              Text(controller.text),
+              Row(
+                mainAxisSize: MainAxisSize.max,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text((switchValue)
+                      ? "J'aime Elden Ring"
+                      : "Vivement le 21 juin"),
+                  Switch(
+                      value: switchValue,
+                      activeColor: Colors.cyan,
+                      inactiveTrackColor: Colors.white,
+                      onChanged: ((bool) {
+                        setState(() {
+                          switchValue = bool;
+                        });
+                      }))
+                ],
+              ),
+              Slider(
                 activeColor: Colors.cyan,
                 inactiveColor: Colors.cyanAccent,
                 value: sliderValue,
@@ -134,15 +136,20 @@ class InteractifPageState extends State<InteractifPage> {
                   });
                 }),
                 thumbColor: Colors.blue,
-                
-                ),
-            Text("Valeur: ${sliderValue.toInt()}"),
-            Checkbox(value: check, onChanged: ((newBool) => setState(() => check = newBool ?? false))),
-            checks()
 
-          ],
+              ),
+              Text("Valeur: ${sliderValue.toInt()}"),
+              Checkbox(value: check, onChanged: ((newBool) => setState(() => check = newBool ?? false))),
+              checks(),
+              radios(),
+              checks()
+
+
+            ],
+          ),
         ),
       ),
+
       floatingActionButton: FloatingActionButton(
         onPressed: updateColors,
         child: const Icon(Icons.build),
@@ -223,13 +230,34 @@ class InteractifPageState extends State<InteractifPage> {
             setState(() {
               courses[course] = newValue ?? false;
             });
-          }))
+          }),
+          checkColor: Colors.white,
+          activeColor: Colors.cyan,)
         ],
       );
       items.add(row);
     });
     return Column(children: items);
   }
+
+  Row radios() {
+    List<Widget> radios = [];
+    for (var i = 0; i < 5; i++) {
+      Radio r = Radio(
+          value: i,
+          groupValue: groupValue,
+          activeColor: Colors.cyan,
+          onChanged: ((newValue){
+            setState(() {
+              groupValue = newValue as int;
+            });
+          }));
+      radios.add(r);
+    }
+    return Row(children: radios,);
+  }
 }
+
+
 
 
