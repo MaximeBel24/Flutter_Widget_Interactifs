@@ -15,6 +15,12 @@ class InteractifPageState extends State<InteractifPage> {
   late TextEditingController controller;
   bool switchValue = true;
   double sliderValue = 50;
+  bool check = false;
+  Map<String, bool> courses = {
+    "Carottes": false,
+    "Oignon": true,
+    "Abricot": false
+  };
 
   @override
   void initState() {
@@ -130,7 +136,10 @@ class InteractifPageState extends State<InteractifPage> {
                 thumbColor: Colors.blue,
                 
                 ),
-                Text("Valeur: ${sliderValue.toInt()}")
+            Text("Valeur: ${sliderValue.toInt()}"),
+            Checkbox(value: check, onChanged: ((newBool) => setState(() => check = newBool ?? false))),
+            checks()
+
           ],
         ),
       ),
@@ -201,4 +210,26 @@ class InteractifPageState extends State<InteractifPage> {
           : Icons.favorite;
     });
   }
+
+  Column checks() {
+    List<Widget> items = [];
+    courses.forEach((course, achete){
+      Widget row = Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        mainAxisSize: MainAxisSize.max,
+        children: [
+          Text(course),
+          Checkbox(value: achete, onChanged: ((newValue){
+            setState(() {
+              courses[course] = newValue ?? false;
+            });
+          }))
+        ],
+      );
+      items.add(row);
+    });
+    return Column(children: items);
+  }
 }
+
+
